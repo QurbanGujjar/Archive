@@ -45,46 +45,95 @@ class random extends Component {
     }
   }
 
-  getRandonNumbers = (noOfRandomNos) => {
-    var arr = [];
-    while (arr.length < this.state.finalValue ) {
-      var r = Math.floor(Math.random() * this.state.finalValue ) + this.state.initialValue;
-      if (arr.indexOf(r) === -1) arr.push(r);
-    }
-    var evens = arr.filter(number => number % 2 == 0 && number !== 0);
-    const evenNumbersToPush = evens.slice(0, this.state.inputEvenNumber);
-    var primeNumbers = this.findPrimeNumber(arr);
-    const primeNumbersToPush = primeNumbers.slice(0, this.state.inputPrimeNumber);
-    var arrToPush = [];
-    evenNumbersToPush.forEach(element => {
-      arrToPush.push(element)
-    });
-    primeNumbersToPush.forEach(element => {
-      arrToPush.push(element)
-    });
+  getRandonNumbers =(noOfRandomNos)=>{
 
-    var oldArray = arr.filter( x => ! new Set(arrToPush).has(x) )
-
-    oldArray.forEach(element => {
-      if (arrToPush.length < noOfRandomNos)
-        arrToPush.push(element)
-    });
-    let sortednumbers = arrToPush.sort((a, b) => a - b).join(",");
-    var arrayOfObject = [];
-    arrayOfObject.push(sortednumbers)
-    return arrayOfObject;
   }
 
   handleCahngeforRandom = (val) => {
-    var randomNoArrayTemp=[];
-   for (let index = 0; index < this.state.inputColumnNumber; index++) {
-    randomNoArrayTemp.push(this.getRandonNumbers(this.state.inputValue));
-    debugger
-    if(randomNoArrayTemp.length==this.state.inputColumnNumber)
-    this.setState({ FarrayOfObject: randomNoArrayTemp })
-   }
-  
+    this.GetRangeOfNumbers();
+    var currentArr = this.state.finalArry;
+    // var myarr = [];
+    var arrayOfObject = [];
+    var numberOfColoum = this.state.inputColumnNumber;
+    var primeCount = 0;
+    var evenCount = 0;
+    var rowCount = 0;
+    // console.log()
+    // console.log(currentArr.length)
+    for (var i = 0; i < this.state.finalArry.length; i++) {
+      // console.log(currentArr[i])
+      if (currentArr[i] % 2 === 0) {
+        if (evenCount < this.state.inputEvenNumber) {
+          this.state.myarr.push(currentArr[i]);
+          evenCount++;
+          // rowCount++
+        }
+      } else {
+        let prime = this.checkPrime(currentArr[i]);
+        // console.log(prime)
+        if (prime) {
+          if (primeCount < this.state.inputPrimeNumber) {
+            this.state.myarr.push(currentArr[i]);
+            primeCount++;
+          } else {
+          }
+        } else {
+          this.state.myarr.push(currentArr[i]);
+          // rowCount++
+        }
+        // myarr.push(currentArr[i])
+      }
 
+      if (this.state.myarr.length === this.state.inputValue) {
+        break;
+      }
+    }
+
+    console.log(this.state.myarr);
+    let reqColum = this.state.inputColumnNumber;
+    for (let z = 0; z <= this.state.myarr.length; z++) {
+      if (rowCount === reqColum) {
+        // console.log(z-5,z)
+        arrayOfObject.push(this.state.myarr.slice(z - reqColum, z));
+        rowCount = 1;
+      } else {
+        rowCount++;
+        // console.log(rowCount++)
+      }
+    }
+    console.log(arrayOfObject);
+    // this.state.FarrayOfObject=this.state.myarr
+
+    this.setState({ FarrayOfObject: arrayOfObject });
+
+    if (val == 0) {
+      alert("Please enter minimum one number");
+    } else {
+      var arr = [];
+      // while (arr.length < val) {
+      //   var r = Math.floor(Math.random() * 50) + 1;
+      //   if (arr.indexOf(r) === -1) arr.push(r);
+      // }
+
+      // this.setState(this.state.myarr)
+      arr = this.state.myarr;
+      // this.state.myarr=[]
+
+      this.setState(
+        {
+          randomNumArray: arr.sort((a, b) => a - b).join(","),
+          finalArry: arr,
+        },
+        () => {
+          this.avg(this.state.myarr);
+          this.diff(this.state.myarr);
+          this.even(this.state.myarr);
+          this.odd(this.state.myarr);
+          this.findPrimeNumber(this.state.myarr);
+        }
+      );
+      return arr;
+    }
   };
 
   //  lableF=()=>{
@@ -143,7 +192,7 @@ class random extends Component {
         prime.push(num);
       }
     });
-    return prime;
+    this.setState({ primeNumber: prime.join(",") });
   };
 
   isPrime = (num) => {
@@ -308,7 +357,7 @@ class random extends Component {
         <br /> Random Number :{/* {console.log(this.state.FarrayOfObject)} */}
         <br />
 
-        {/* {this.state.FarrayOfObject.length > 0 ? <ColumnLables length={this.state.FarrayOfObject[0]} /> : ""} */}
+        {this.state.FarrayOfObject.length > 0 ? <ColumnLables length={this.state.FarrayOfObject[0]} /> : ""}
 
 
         {/* <div>
