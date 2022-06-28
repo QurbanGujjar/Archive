@@ -303,7 +303,7 @@ class random extends Component {
         <input type='number' onChange={this.handleinputColumnNumber}></input>
         <br />
         <button onClick={() => this.handleCahngeforRandom(inputValue)}>
-          Get Results
+          Get Resultsnpx
         </button>
         <br /> Random Number :{/* {console.log(this.state.FarrayOfObject)} */}
         <br />
@@ -330,7 +330,7 @@ class random extends Component {
 
 
               <div key={index}>
-                <p key={item[index]}> <span   >Row No : {index + 1} -----{">"} </span>{item.map((num, ind) => {
+                <p key={item[index]}> <span   >Column No : {index + 1} -----{">"} </span>{item.map((num, ind) => {
                   return <span key={ind}>{num} {", "}</span>
 
                 })}</p>
