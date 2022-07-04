@@ -64,7 +64,8 @@ class random extends Component {
     });
 
     var oldArray = arr.filter( x => ! new Set(arrToPush).has(x) )
-    oldArray = oldArray.slice(0, this.state.inputColumnNumber);
+    debugger
+    arrToPush = arrToPush.slice(0, this.state.inputColumnNumber);
     oldArray.forEach(element => {
       if (arrToPush.length < noOfRandomNos)
         arrToPush.push(element)
@@ -83,9 +84,7 @@ class random extends Component {
     randomNoArrayTemp.push(this.getRandonNumbers(this.state.inputColumnNumber));
     if(randomNoArrayTemp.length==this.state.inputValue-1)
     this.setState({ FarrayOfObject: randomNoArrayTemp })
-   }
-  
-
+   }  
   };
 
   //  lableF=()=>{
