@@ -48,13 +48,13 @@ class random extends Component {
   getRandonNumbers = (noOfRandomNos) => {
     var arr = [];
     while (arr.length < this.state.finalValue ) {
-      var r = Math.floor(Math.random() * this.state.finalValue ) + this.state.initialValue;
+      var r = Math.floor(Math.random() * this.state.finalValue ) + 5/*this.state.initialValue*/;
       if (arr.indexOf(r) === -1) arr.push(r);
     }
-    var evens = arr.filter(number => number % 2 == 0 && number !== 0);
-    const evenNumbersToPush = evens.slice(0, this.state.inputEvenNumber);
+    var evens = arr.filter(number => number % 2 == 0 && number !== 0 && number >= this.state.inputEvenNumber);
+    const evenNumbersToPush = evens.slice(0,6);
     var primeNumbers = this.findPrimeNumber(arr);
-    const primeNumbersToPush = primeNumbers.slice(0, this.state.inputPrimeNumber);
+    const primeNumbersToPush = primeNumbers.slice(0, 2);
     var arrToPush = [];
     evenNumbersToPush.forEach(element => {
       arrToPush.push(element)
@@ -64,12 +64,13 @@ class random extends Component {
     });
 
     var oldArray = arr.filter( x => ! new Set(arrToPush).has(x) )
-
+    oldArray = oldArray.slice(0, this.state.inputColumnNumber);
     oldArray.forEach(element => {
       if (arrToPush.length < noOfRandomNos)
         arrToPush.push(element)
     });
     let sortednumbers = arrToPush.sort((a, b) => a - b).join(",");
+   
     var arrayOfObject = [];
     arrayOfObject.push(sortednumbers)
     return arrayOfObject;
@@ -77,10 +78,10 @@ class random extends Component {
 
   handleCahngeforRandom = (val) => {
     var randomNoArrayTemp=[];
-   for (let index = 0; index < this.state.inputColumnNumber; index++) {
-    randomNoArrayTemp.push(this.getRandonNumbers(this.state.inputValue));
     debugger
-    if(randomNoArrayTemp.length==this.state.inputColumnNumber)
+   for (let index = 0; index < this.state.inputValue; index++) {
+    randomNoArrayTemp.push(this.getRandonNumbers(this.state.inputColumnNumber));
+    if(randomNoArrayTemp.length==this.state.inputValue-1)
     this.setState({ FarrayOfObject: randomNoArrayTemp })
    }
   
@@ -139,7 +140,7 @@ class random extends Component {
     let prime = [];
     arr.forEach((num) => {
       var isNum = this.isPrime(num);
-      if (isNum) {
+      if (isNum && num >= this.state.inputPrimeNumber) {
         prime.push(num);
       }
     });
@@ -218,11 +219,7 @@ class random extends Component {
     this.state.finalArry = [];
     for (let i = this.state.initialValue; i <= this.state.finalValue; i++) {
       this.state.finalArry.push(
-        Math.floor(
-          Math.random() * (this.state.finalValue - this.state.initialValue) +
-          this.state.initialValue
-        )
-      );
+        Math.floor(Math.random() * this.state.finalValue ) + 5/*this.state.initialValue*/)
     }
     // console.log(Math.random() * (this.state.finalValue - this.state.initialValue) + this.state.initialValue);
 
@@ -330,7 +327,7 @@ class random extends Component {
 
 
               <div key={index}>
-                <p key={item[index]}> <span   >Column No : {index + 1} -----{">"} </span>{item.map((num, ind) => {
+                <p key={item[index]}> <span   >Row No : {index + 1} -----{">"} </span>{item.map((num, ind) => {
                   return <span key={ind}>{num} {", "}</span>
 
                 })}</p>
