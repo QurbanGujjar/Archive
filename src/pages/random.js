@@ -52,9 +52,9 @@ class random extends Component {
       if (arr.indexOf(r) === -1) arr.push(r);
     }
     var evens = arr.filter(number => number % 2 == 0 && number !== 0 && number >= this.state.inputEvenNumber);
-    const evenNumbersToPush = evens.slice(0,6);
+    const evenNumbersToPush = evens.slice(0,this.state.inputEvenNumber);
     var primeNumbers = this.findPrimeNumber(arr);
-    const primeNumbersToPush = primeNumbers.slice(0, 2);
+    const primeNumbersToPush = primeNumbers.slice(0, this.state.inputPrimeNumber);
     var arrToPush = [];
     evenNumbersToPush.forEach(element => {
       arrToPush.push(element)
