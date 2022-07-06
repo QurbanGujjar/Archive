@@ -11,7 +11,7 @@ class random extends Component {
     evenNumber: [],
     oddNumber: [],
     primeNumber: [],
-    inputColumnNumber: 0,
+    inputColumnNumber: 1,
     inputValue: 0,
     initialValue: 0,
     finalValue: 0,
@@ -64,7 +64,6 @@ class random extends Component {
     });
 
     var oldArray = arr.filter( x => ! new Set(arrToPush).has(x) )
-    debugger
     arrToPush = arrToPush.slice(0, this.state.inputColumnNumber);
     oldArray.forEach(element => {
       if (arrToPush.length < noOfRandomNos)
@@ -275,6 +274,12 @@ class random extends Component {
         <div></div>
         <label>
           {" "}
+          <b>How many Column number do you want :</b>{" "}
+        </label>
+        <input type='number' onChange={this.handleinputColumnNumber}></input>
+        <br />
+        <label>
+          {" "}
           <b> how many rows/ sequences/ series do you want?</b>{" "}
         </label>
         <input type='number' onChange={this.handleChangeForInput}></input>
@@ -283,21 +288,16 @@ class random extends Component {
           {" "}
           <b>How many even numbers do you want (At least):</b>{" "}
         </label>
-        <input type='number' onChange={this.handleinputEvenNumber}></input>
+        {this.state.inputColumnNumber==1 ?  <input type='number' disabled onChange={this.handleinputEvenNumber}></input>:<input type='number' onChange={this.handleinputEvenNumber}></input>}
         <br />
         {/* inputColumnNumber */}
         <label>
           {" "}
           <b>How many Prime numbers do you want (At least):</b>{" "}
         </label>
-        <input type='number' onChange={this.handleinputPrimeNumber}></input>
+        {this.state.inputColumnNumber==1 ? <input disabled type='number' onChange={this.handleinputPrimeNumber}></input>:<input type='number' onChange={this.handleinputPrimeNumber}></input>}
         <br />
-        <label>
-          {" "}
-          <b>How many Column number do you want :</b>{" "}
-        </label>
-        <input type='number' onChange={this.handleinputColumnNumber}></input>
-        <br />
+      
         <button onClick={() => this.handleCahngeforRandom(inputValue)}>
           Get Resultsnpx
         </button>
