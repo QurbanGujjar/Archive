@@ -29,6 +29,8 @@ class random extends Component {
     chanceOfNumberInSequenceSmallestProb: 0,
     chanceOfNumberBiggest: 0,
     chanceOfNumberInSequenceBiggestProb: 0,
+    consecutiveDiff:[],
+    sumOfRows:[]
   };
 
   checkPrime(number) {
@@ -77,13 +79,30 @@ class random extends Component {
   }
 
   handleCahngeforRandom = (val) => {
-    var randomNoArrayTemp=[];
-    debugger
-   for (let index = 0; index < this.state.inputValue; index++) {
-    randomNoArrayTemp.push(this.getRandonNumbers(this.state.inputColumnNumber));
-    if(randomNoArrayTemp.length==this.state.inputValue-1)
-    this.setState({ FarrayOfObject: randomNoArrayTemp })
-   }  
+    if(this.state.inputColumnNumber==1 ||this.state.inputColumnNumber==5 ||this.state.inputColumnNumber==6){
+      var randomNoArrayTemp=[];
+      for (let index = 0; index < this.state.inputValue; index++) {
+       randomNoArrayTemp.push(this.getRandonNumbers(this.state.inputColumnNumber));
+       if(randomNoArrayTemp.length==this.state.inputValue)
+       {
+         this.setState({ FarrayOfObject: randomNoArrayTemp })
+         var consecutiveDiffTemp=[];
+         var sumOfRowsTemp=[];
+   
+         randomNoArrayTemp.forEach(element => {
+           var randomNoArrayTempIntArr=element[0].split(',');
+           var diffTemp=this.diff(element[0].split(','));
+           consecutiveDiffTemp.push(diffTemp);
+           sumOfRowsTemp.push( randomNoArrayTempIntArr.reduce((partialSum, a) => partialSum + parseInt(a), 0))
+         });
+         this.setState({consecutiveDiff:consecutiveDiffTemp,sumOfRows:sumOfRowsTemp})
+       }
+     
+      } 
+    }
+   else{
+    alert("Sequence can have 1; 5 or 6 columns");
+   }
   };
 
   //  lableF=()=>{
@@ -336,6 +355,47 @@ class random extends Component {
 
             );
           })}
+          <br/>
+           <div></div>
+     <label>
+          {" "}
+          <b>Consecutive Defference :</b>{" "}
+        </label>
+        { this.state.inputColumnNumber>1&& this.state.consecutiveDiff &&
+          this.state.consecutiveDiff.map((item, index) => {
+            return (
+
+              <div key={index}>
+                <p key={item[index]}> <span   >Row No : {index + 1} -----{">"} </span>{item.map((num, ind) => {
+                  return <span key={ind}>{num} {", "}</span>
+
+                })}</p>
+
+
+              </div>
+
+            );
+          })}
+            { this.state.inputColumnNumber==1&&  <b>Not Applicable </b>}
+          
+           <div></div>
+        <label>
+          {" "}
+          <b>Sum  :</b>{" "}
+        </label>
+        { this.state.inputColumnNumber>1&&this.state.sumOfRows &&
+          this.state.sumOfRows.map((item, index) => {
+            return (
+
+              <div key={index}>
+                <p key={item}> <span   >Row No : {index + 1} -----{">"} </span>{item}</p>
+
+
+              </div>
+
+            );
+          })}
+        { this.state.inputColumnNumber==1&&  <b>Not Applicable </b>}
         {/* {this.state.FarrayOfObject.map((item, index) => {
         <p>
 
